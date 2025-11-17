@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Princess Day Surprise</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            min-height: 100vh;
+            background-color: #000;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .bg-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.1;
+            background-image: radial-gradient(circle, #dc2626 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .particles {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            color: #ef4444;
+            animation: pulse-particle 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-particle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.2); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-banner {
+            background: linear-gradient(to right, #dc2626, #ef4444, #dc2626);
+            padding: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .banner-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            animation: pulse-banner 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-banner {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .crown-icon {
+            color: #fde047;
+            width: 32px;
+            height: 32px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            letter-spacing: 0.05em;
+        }
+
+        @media (min-width: 768px) {
+            h1 { font-size: 3rem; }
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1.5rem;
+        }
+
+        @media (min-width: 1024px) {
+            .main-content {
+                flex-direction: row;
+                padding: 3rem;
+            }
+        }
+
+        .carousel-section, .message-section {
+            width: 100%;
+            max-width: 42rem;
+        }
+
+        @media (min-width: 1024px) {
+            .carousel-section, .message-section {
+                width: 50%;
+            }
+        }
+
+        .carousel-card {
+            background: linear-gradient(to bottom right, #7f1d1d, #450a0a);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 4px solid #ef4444;
+        }
+
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .slide {
+            aspect-ratio: 16/9;
+            background-color: #450a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+        }
+
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .slide-caption p {
+            color: white;
+            font-size: 1.25rem;
+            font-weight: bold;
+            text-shadow: 0 10px 15px rgba(0,0,0,0.3);
+        }
+
+        @media (min-width: 768px) {
+            .slide-caption p { font-size: 1.5rem; }
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .control-btn {
+            background-color: #dc2626;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        .control-btn:hover {
+            background-color: #b91c1c;
+        }
+
+        .indicators {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .indicator {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 9999px;
+            background-color: #fca5a5;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .indicator.active {
+            background-color: #ef4444;
+            width: 2rem;
+        }
+
+        .counter {
+            text-align: center;
+            margin-top: 1rem;
+            color: #fca5a5;
+            font-weight: 600;
+        }
+
+        .message-section {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(2.5rem);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .decorative-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .icon-gift, .icon-music {
+            color: #ef4444;
+            width: 40px;
+            height: 40px;
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        .icon-heart-main {
+            color: #dc2626;
+            width: 48px;
+            height: 48px;
+            animation: pulse-heart 1.5s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse-heart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .message-card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            overflow: hidden;
+            border: 4px solid #fca5a5;
+        }
+
+        .message-header {
+            background: linear-gradient(to right, #dc2626, #f43f5e);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .message-header h2 {
+            font-size: 1.875rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .message-header h2 { font-size: 2.25rem; }
+        }
+
+        .message-header p {
+            color: #fecaca;
+            font-size: 1.125rem;
+        }
+
+        .message-body {
+            padding: 2rem;
+            color: #1f2937;
+        }
+
+        .message-body p {
+            font-size: 1.125rem;
+            line-height: 1.75;
+            margin-bottom: 1.25rem;
+        }
+
+        .highlight-box {
+            background-color: #fef2f2;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 2px solid #fecaca;
+            margin-bottom: 1.25rem;
+        }
+
+        .highlight-box p {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #991b1b;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .final-message {
+            text-align: center;
+            padding-top: 1rem;
+        }
+
+        .final-message p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #b91c1c;
+            margin-bottom: 0;
+        }
+
+        .bottom-hearts {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .heart-icon {
+            color: #ef4444;
+            animation: pulse-heart 1.5s ease-in-out infinite;
+        }
+
+        .heart-icon:nth-child(1) { animation-delay: 0s; width: 24px; height: 24px; }
+        .heart-icon:nth-child(2) { animation-delay: 0.15s; width: 24px; height: 24px; }
+        .heart-icon:nth-child(3) { animation-delay: 0.3s; width: 24px; height: 24px; }
+        .heart-icon:nth-child(4) { animation-delay: 0.45s; width: 32px; height: 32px; }
+        .heart-icon:nth-child(5) { animation-delay: 0.6s; width: 24px; height: 24px; }
+        .heart-icon:nth-child(6) { animation-delay: 0.75s; width: 24px; height: 24px; }
+        .heart-icon:nth-child(7) { animation-delay: 0.9s; width: 24px; height: 24px; }
+
+        .bottom-banner {
+            background: linear-gradient(to right, #dc2626, #ef4444, #dc2626);
+            padding: 0.75rem;
+            text-align: center;
+        }
+
+        .bottom-banner p {
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        @media (min-width: 768px) {
+            .bottom-banner p { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Pattern -->
+    <div class="bg-pattern"></div>
+
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <!-- Top Banner -->
+        <div class="top-banner">
+            <div class="banner-content">
+                <svg class="crown-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+                <h1>WORLD PRINCESS DAY</h1>
+                <svg class="crown-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Carousel Section -->
+            <div class="carousel-section">
+                <div class="carousel-card">
+                    <div class="carousel-container">
+                        <div class="slide">
+                            <img id="currentImage" src="./assets/a1.jpg" alt="Slide">
+                            <div class="slide-overlay"></div>
+                            <div class="slide-caption">
+                                <p id="currentCaption">The moment I realized you were special</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="controls">
+                        <button class="control-btn" onclick="prevSlide()">← Previous</button>
+                        <div class="indicators" id="indicators"></div>
+                        <button class="control-btn" onclick="nextSlide()">Next →</button>
+                    </div>
+
+                    <div class="counter">
+                        <p id="counter">Memory 1 of 8</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message Section -->
+            <div class="message-section">
+                <div class="decorative-icons">
+                    <svg class="icon-gift" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
+                    </svg>
+                    <svg class="icon-heart-main" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                    <svg class="icon-music" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+                    </svg>
+                </div>
+
+                <div class="message-card">
+                    <div class="message-header">
+                        <h2>To My Princess</h2>
+                        <p>Something I've been wanting to tell you...</p>
+                    </div>
+
+                    <div class="message-body">
+                        <p>I couldn't let World Princess Day pass without telling you how truly special you are to me.</p>
+                        
+                        <p>Every time I see you, my heart races. Your presence makes everything brighter, and I find myself thinking about you more than I ever imagined possible.</p>
+                        
+                        <p>You deserve to be celebrated not just today, but every single day. You deserve someone who sees how amazing you are, who appreciates your kindness, your spirit, and everything that makes you uniquely YOU.</p>
+                        
+                        <div class="highlight-box">
+                            <p>I have feelings for you, and I wanted you to know that you mean the world to me. 💕</p>
+                        </div>
+                        
+                        <p>Thank you for being the incredible person you are. You truly are a princess in every sense of the word.</p>
+                        
+                        <div class="final-message">
+                            <p>Happy World Princess Day! 👑</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bottom-hearts">
+                    <svg class="heart-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                    <svg class="heart-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                    <svg class="heart-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                    <svg class="heart-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                    <svg class="heart-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                    <svg class="heart-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                    <svg class="heart-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Banner -->
+        <div class="bottom-banner">
+            <p>✨ Use the arrows to navigate through our special moments ✨</p>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const images = [
+            './assets/a1.jpg',
+            './assets/a2.jpg',
+            './assets/a3.jpg',
+            './assets/a4.jpg',
+            './assets/a5.jpg',
+            './assets/a6.jpg',
+            './assets/a7.jpg',
+            './assets/a8.jpg'
+        ];
+
+        const moments = [
+            "The moment I realized you were special",
+            "When your smile stole my heart",
+            "The day everything changed for me",
+            "When I knew I had feelings for you",
+            "Every laugh we've shared together",
+            "The times you made me feel alive",
+            "Memories I'll treasure forever",
+            "Today and every day - you're my princess"
+        ];
+
+        let currentSlide = 0;
+
+        // Initialize particles
+        function initParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                particle.style.animationDuration = (3 + Math.random() * 2) + 's';
+                particle.setAttribute('viewBox', '0 0 24 24');
+                particle.setAttribute('width', Math.random() * 15 + 10);
+                particle.setAttribute('height', Math.random() * 15 + 10);
+                particle.setAttribute('fill', 'none');
+                particle.setAttribute('stroke', 'currentColor');
+                particle.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>';
+                container.appendChild(particle);
+            }
+        }
+
+        // Initialize indicators
+        function initIndicators() {
+            const container = document.getElementById('indicators');
+            container.innerHTML = '';
+            for (let i = 0; i < images.length; i++) {
+                const indicator = document.createElement('button');
+                indicator.classList.add('indicator');
+                if (i === 0) indicator.classList.add('active');
+                indicator.onclick = () => goToSlide(i);
+                container.appendChild(indicator);
+            }
+        }
+
+        // Update slide
+        function updateSlide() {
+            document.getElementById('currentImage').src = images[currentSlide];
+            document.getElementById('currentCaption').textContent = moments[currentSlide];
+            document.getElementById('counter').textContent = `Memory ${currentSlide + 1} of ${images.length}`;
+            
+            // Update indicators
+            const indicators = document.querySelectorAll('.indicator');
+            indicators.forEach((ind, idx) => {
+                if (idx === currentSlide) {
+                    ind.classList.add('active');
+                } else {
+                    ind.classList.remove('active');
+                }
+            });
+        }
+
+        // Navigation functions
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % images.length;
+            updateSlide();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + images.length) % images.length;
+            updateSlide();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlide();
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            initParticles();
+            initIndicators();
+            updateSlide();
+        };
+    </script>
+</body>
+</html>
